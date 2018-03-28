@@ -3,22 +3,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 module.exports = {
-  devtool: 'cheap-module-source-map',
-  devServer: {
-    contentBase: './dist'
-  },
-  entry: './src/main.jsx',
+  entry: 'src/main.jsx',
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.js',
   },
-  mode: "development",
   plugins: [
     new HtmlWebpackPlugin({
       template: 'src/index.html',
       inject: 'body'
     }),
-    new UglifyJsPlugin()
   ],
   module: {
     rules: [
@@ -30,9 +24,11 @@ module.exports = {
     ]
   },
   resolve: {
+    modules: [
+      path.resolve('src'),
+      process.cwd(),
+      path.resolve('node_modules'),
+    ],
     extensions: ['.js', '.jsx'],
-    alias: {
-      components: path.resolve(__dirname, 'src/component/'),
-    }
   }
 }
