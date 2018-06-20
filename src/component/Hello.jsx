@@ -1,11 +1,5 @@
 import React, { Component } from 'react';
 import { actions } from 'data/repository';
-import { Pastore, makeOnlyContainer} from 'pastate';
-
-const initState = {
-  repositories: [],
-}
-const store = new Pastore(initState);
 
 class Hello extends Component {
   constructor() {
@@ -15,7 +9,8 @@ class Hello extends Component {
         q: '',
         sort: '',
         order: 'desc',
-      }
+      },
+      repositories: [],
     };
     this._handeChange = this._handeChange.bind(this);
   }
@@ -28,22 +23,19 @@ class Hello extends Component {
 
   _onClickSearchButton() {
     actions.fetchRepositories(this.state.filter).
-      then((x) => store.state.repositories = x.items);
+      then((x) => this.setState({repositories: x.items}));
   }
 
   render() {
-    const { filter } = this.state;
-    const { state } = store;
+    const { filter, repositories } = this.state;
     return <div>
       <input value={filter.q} onChange={this._handeChange} />
       <button onClick={()=> this._onClickSearchButton()}>search</button>
       {
-        state.repositories.map((x) => <div>{x.id}</div>)
+        repositories.map((x) => <div>{x.full_name}</div>)
       }
     </div>;
-
   }
 }
 
-
-export default makeOnlyContainer(Hello, store);
+export default Hello;
