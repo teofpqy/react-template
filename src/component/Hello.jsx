@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { actions } from 'data/repository';
+import styles from './style.css';
 
 class Hello extends Component {
   constructor() {
@@ -28,7 +29,7 @@ class Hello extends Component {
 
   render() {
     const { filter, repositories } = this.state;
-    return <div>
+    return <div className={styles.Hello}>
       <input value={filter.q} onChange={this._handeChange} />
       <button onClick={()=> this._onClickSearchButton()}>search</button>
       {

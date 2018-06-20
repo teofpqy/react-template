@@ -1,6 +1,6 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
   entry: 'src/main.jsx',
@@ -13,6 +13,10 @@ module.exports = {
       template: 'src/index.html',
       inject: 'body'
     }),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css"
+    })
   ],
   module: {
     rules: [
@@ -20,6 +24,30 @@ module.exports = {
         test: /.jsx?$/,
         exclude: /node_modules/,
         use: ['babel-loader']
+      },
+      {
+        test: /\.css$/,
+        use:[
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              root: '.',
+              modules: true,
+              // minimize: true,
+              import: false,
+              importLoaders: 1,
+            },
+          },
+          {
+            loader: 'postcss-loader',
+            options: {
+              config: {
+                path: path.join(__dirname, '../postcss.config.js'),
+              },
+            },
+          },
+        ]
       }
     ]
   },
