@@ -4,7 +4,7 @@ import invariant from 'invariant';
 
 const instance = axios.create({
   baseURL: 'https://api.github.com/',
-  timeout: 1000,
+  timeout: 5000,
   headers: { 'Accept': 'application/vnd.github.v3+json' }
 });
 
