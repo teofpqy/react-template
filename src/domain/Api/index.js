@@ -3,20 +3,13 @@ import is from 'is_js';
 import invariant from 'invariant';
 
 const instance = axios.create({
-  baseURL: 'https://api.github.com/',
+  baseURL: 'https://csgo.5eplay.com/api',
   timeout: 5000,
-  headers: { 'Accept': 'application/vnd.github.v3+json' }
+  headers: {
+    accept: '*/*',
+    'accept-language': 'zh-CN,zh;q=0.9',
+  },
 });
-
-export default fetch = (url, options = {}) => {
-  invariant(is.string(url), 'url must be a string');
-  invariant(is.object(options), 'options must be a plain object');
-
-  const finalOptions = Object.assign({}, options, getDefaultOpts(options));
-  finalOptions.url = url;
-  return instance.request(finalOptions)
-    .then(checkResponseStatus);
-}
 
 function getDefaultOpts(options = {}) {
   const defaultOpts = options;
@@ -27,7 +20,17 @@ function getDefaultOpts(options = {}) {
 }
 
 function checkResponseStatus(response) {
-  if (response.statusText.toLowerCase() == 'ok') {
+  if (response.statusText.toLowerCase() === 'ok') {
     return response.data;
   }
+  return response;
+}
+
+export default function fetch(url, options = {}) {
+  invariant(is.string(url), 'url must be a string');
+  invariant(is.object(options), 'options must be a plain object');
+
+  const finalOptions = Object.assign({}, options, getDefaultOpts(options));
+  finalOptions.url = url;
+  return instance.request(finalOptions).then(checkResponseStatus);
 }

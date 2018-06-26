@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { actions } from 'data/repository';
+import { actions } from 'data/session';
 import styles from './style.css';
 
 class Hello extends Component {
@@ -7,9 +7,11 @@ class Hello extends Component {
     super();
     this.state = {
       filter: {
-        q: '',
-        sort: '',
-        order: 'desc',
+        page: 1,
+        category: 1,
+        type: 0,
+        session_status: 1,
+        name: '',
       },
       repositories: [],
     };
@@ -17,25 +19,24 @@ class Hello extends Component {
   }
 
   _handeChange(event) {
-    const {filter} = this.state;
-    filter.q = event.target.value
+    const { filter } = this.state;
+    filter.q = event.target.value;
     this.setState({ filter });
   }
 
   _onClickSearchButton() {
-    actions.fetchRepositories(this.state.filter).
-      then((x) => this.setState({repositories: x.items}));
+    actions.fetchSession(this.state.filter).then(x => this.setState({ repositories: x.items }));
   }
 
   render() {
     const { filter, repositories } = this.state;
-    return <div className={styles.Hello}>
-      <input value={filter.q} onChange={this._handeChange} />
-      <button onClick={()=> this._onClickSearchButton()}>search</button>
-      {
-        repositories.map((x) => <div>{x.full_name}</div>)
-      }
-    </div>;
+    return (
+      <div className={styles.Hello}>
+        <input value={filter.name} onChange={this._handeChange} />
+        <button onClick={() => this._onClickSearchButton()}>search</button>
+        {repositories.map(x => <div>{x.full_name}</div>)}
+      </div>
+    );
   }
 }
 

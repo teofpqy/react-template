@@ -1,0 +1,29 @@
+{
+  "extends": ["airbnb"],
+  "rules" : {
+    "indent": "off",
+    "indent-legacy": ["error", 2, {
+      "SwitchCase": 1
+    }],
+    "no-underscore-dangle": ["off"],
+    "import/no-unresolved": ["off"],
+    "import/extensions": ["off"],
+    "import/first": ["off"],
+    "import/no-extraneous-dependencies": ["off"],
+    "react/jsx-indent-props": ["error", 4],
+    "react/jsx-wrap-multilines": ["off"],
+    "react/jsx-closing-bracket-location": ["error", "after-props"],
+    "react/sort-comp": ["error", {
+      "order": [
+        "static-methods",
+        "lifecycle",
+        "everything-else",
+        "render",
+        "/^render.+$/"
+      ]
+    }]
+  },
+  "globals": {
+    "document": true
+  }
+}
